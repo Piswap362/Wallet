@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PiSwap Wallet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #4A00E0, #8E2DE2);
+            color: white;
+            text-align: center;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+        }
+        .wallet-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+        }
+        .wallet-balance {
+            font-size: 26px;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #FFD700;
+        }
+        .bottom-menu {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+        }
+        .menu-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            gap: 3px;
+            text-decoration: none;
+            position: relative;
+        }
+        .menu-btn i {
+            font-size: 22px;
+        }
+        .menu-btn.active::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background-color: #FFD700;
+            border-radius: 3px;
+        }
+        .wallet-icon {
+            font-size: 50px;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>PiSwap Wallet</h2>
+        <p>View all your collected points here.</p>
+
+        <div class="wallet-box">
+            <i class="fas fa-wallet wallet-icon"></i>
+            <p>Your Current Balance:</p>
+            <div class="wallet-balance" id="walletBalance">0 PiSwap</div>
+        </div>
+    </div>
+
+    <div class="bottom-menu">
+        <a href="go:home" class="menu-btn"><i class="fas fa-home"></i> Home</a>
+        <a href="go:tasks" class="menu-btn"><i class="fas fa-tasks"></i> Tasks</a>
+        <a href="go:friends" class="menu-btn"><i class="fas fa-user-friends"></i> Friends</a>
+        <a href="go:wallet" class="menu-btn active"><i class="fas fa-wallet"></i> Wallet</a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let points = parseInt(localStorage.getItem("walletPoints")) || 0;
+            document.getElementById("walletBalance").textContent = points + " PiSwap";
+        });
+    </script>
+</body>
+</html>
