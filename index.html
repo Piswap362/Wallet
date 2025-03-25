@@ -10,7 +10,7 @@
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #4A00E0, #8E2DE2);
+            background-color: #6A0DAD; /* Full purple background */
             color: white;
             text-align: center;
         }
@@ -21,7 +21,7 @@
         }
         .wallet-box {
             background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
+            padding: 25px;
             border-radius: 15px;
             backdrop-filter: blur(10px);
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
@@ -32,6 +32,40 @@
             font-weight: bold;
             margin: 15px 0;
             color: #FFD700;
+        }
+        .wallet-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+        .wallet-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.5; /* Disabled buttons */
+            cursor: not-allowed;
+        }
+        .wallet-btn i {
+            font-size: 18px;
+        }
+        .wallet-icon {
+            font-size: 50px;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+        .roadmap-message {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #FFD700;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
         }
         .bottom-menu {
             position: fixed;
@@ -47,7 +81,6 @@
             border: none;
             color: white;
             font-size: 18px;
-            cursor: pointer;
             display: flex;
             align-items: center;
             flex-direction: column;
@@ -69,11 +102,6 @@
             background-color: #FFD700;
             border-radius: 3px;
         }
-        .wallet-icon {
-            font-size: 50px;
-            color: #FFD700;
-            margin-bottom: 10px;
-        }
     </style>
 </head>
 <body>
@@ -85,6 +113,17 @@
             <i class="fas fa-wallet wallet-icon"></i>
             <p>Your Current Balance:</p>
             <div class="wallet-balance" id="walletBalance">0 PiSwap</div>
+            
+            <!-- Wallet buttons (disabled for now) -->
+            <div class="wallet-buttons">
+                <button class="wallet-btn"><i class="fas fa-plus"></i> Deposit</button>
+                <button class="wallet-btn"><i class="fas fa-paper-plane"></i> Send</button>
+            </div>
+
+            <!-- Roadmap notice -->
+            <div class="roadmap-message">
+                These features will be launched once the roadmap conditions are met.
+            </div>
         </div>
     </div>
 
