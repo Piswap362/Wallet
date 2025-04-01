@@ -3,142 +3,541 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PiSwap Wallet</title>
+    <title>Wallet - Pi Swap</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
+        :root {
+            --pi-primary: #1EC0C0;
+            --pi-secondary: #2ECC71;
+            --pi-accent: #F39C12;
+            --pi-dark: #1A3A4F;
+            --pi-light: #E8F4F8;
+            --text-light: #FFFFFF;
+            --text-dark: #2C3E50;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #6A0DAD; /* Full purple background */
-            color: white;
+            background-color: var(--pi-dark);
+            color: var(--text-light);
             text-align: center;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, var(--pi-dark) 0%, var(--pi-primary) 100%);
         }
-        .container {
+        
+        .scroll-container {
             max-width: 400px;
-            margin: auto;
+            margin: 0 auto;
             padding: 20px;
+            padding-bottom: 80px;
+            min-height: 100vh;
+            box-sizing: border-box;
         }
-        .wallet-box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 25px;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            margin-top: 20px;
-        }
-        .wallet-balance {
-            font-size: 26px;
-            font-weight: bold;
-            margin: 15px 0;
-            color: #FFD700;
-        }
-        .wallet-buttons {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 15px;
-        }
-        .wallet-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            padding: 10px 15px;
-            border-radius: 8px;
-            font-size: 16px;
-            color: white;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            opacity: 0.5; /* Disabled buttons */
-            cursor: not-allowed;
-        }
-        .wallet-btn i {
-            font-size: 18px;
-        }
-        .wallet-icon {
-            font-size: 50px;
-            color: #FFD700;
-            margin-bottom: 10px;
-        }
-        .roadmap-message {
-            margin-top: 15px;
-            font-size: 14px;
-            color: #FFD700;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px;
-            border-radius: 10px;
-        }
-        .bottom-menu {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 0;
-        }
-        .menu-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            gap: 3px;
-            text-decoration: none;
+        
+        .wallet-header {
+            margin-bottom: 20px;
             position: relative;
         }
-        .menu-btn i {
-            font-size: 22px;
+        
+        .wallet-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--pi-accent);
+            margin-bottom: 5px;
         }
-        .menu-btn.active::after {
+        
+        .wallet-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(30, 192, 192, 0.2);
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .wallet-icon {
+            font-size: 40px;
+            color: var(--pi-accent);
+            margin-bottom: 15px;
+        }
+        
+        .wallet-balance {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 10px 0;
+            color: var(--pi-accent);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .wallet-balance::after {
             content: "";
             position: absolute;
             bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--pi-accent), transparent);
+        }
+        
+        .wallet-address {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin: 15px auto;
+            display: inline-block;
+            word-break: break-all;
+            max-width: 90%;
+            position: relative;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .wallet-address:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .wallet-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .wallet-btn {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--pi-primary);
+            color: var(--text-light);
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .wallet-btn i {
+            font-size: 20px;
+            color: var(--pi-accent);
+        }
+        
+        .wallet-btn:hover {
+            background: rgba(30, 192, 192, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .wallet-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .wallet-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 15px;
+        }
+        
+        .stat-card {
+            background: rgba(30, 192, 192, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            flex: 1;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+        
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 5px 0;
+            color: var(--pi-accent);
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .progress-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 20px 0;
+            height: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pi-primary), var(--pi-accent));
+            border-radius: 10px;
+            width: 30%;
+            transition: width 1s ease;
+        }
+        
+        .progress-text {
+            font-size: 12px;
+            margin-top: 5px;
+            color: var(--pi-accent);
+        }
+        
+        .wallet-security {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(243, 156, 18, 0.1);
+            border-radius: 10px;
+            text-align: left;
+            font-size: 13px;
+        }
+        
+        .security-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .security-item i {
+            margin-right: 10px;
+            color: var(--pi-accent);
+        }
+        
+        .roadmap-message {
+            background: rgba(46, 204, 113, 0.1);
+            border-left: 4px solid var(--pi-secondary);
+            padding: 15px;
+            border-radius: 0 12px 12px 0;
+            margin-top: 25px;
+            text-align: left;
+            font-size: 14px;
+            position: relative;
+        }
+        
+        .roadmap-message h4 {
+            margin-top: 0;
+            color: var(--pi-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .roadmap-message p {
+            margin-bottom: 0;
+        }
+        
+        .bottom-menu {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 58, 79, 0.9);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(30, 192, 192, 0.3);
+            z-index: 1000;
+            max-width: 400px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+        
+        .menu-btn {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            gap: 5px;
+            text-decoration: none;
+            position: relative;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: var(--transition);
+            opacity: 0.7;
+            flex: 1;
+        }
+        
+        .menu-btn:hover {
+            opacity: 1;
+            background: rgba(30, 192, 192, 0.1);
+        }
+        
+        .menu-btn i {
+            font-size: 20px;
+        }
+        
+        .menu-btn.active {
+            opacity: 1;
+            font-weight: 600;
+        }
+        
+        .menu-btn.active::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
             left: 50%;
             transform: translateX(-50%);
-            width: 40px;
+            width: 30px;
             height: 3px;
-            background-color: #FFD700;
+            background-color: var(--pi-accent);
             border-radius: 3px;
+        }
+        
+        .qr-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .qr-content {
+            background: var(--pi-dark);
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 80%;
+            position: relative;
+            border: 1px solid var(--pi-primary);
+        }
+        
+        .qr-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .qr-image {
+            width: 200px;
+            height: 200px;
+            background: white;
+            margin: 20px auto;
+            padding: 10px;
+        }
+        
+        .points-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.3);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .points-counter i {
+            color: var(--pi-accent);
+            margin-right: 5px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>PiSwap Wallet</h2>
-        <p>View all your collected points here.</p>
+    <div class="points-counter">
+        <i class="fas fa-coins"></i>
+        <span id="pointsDisplay">0</span> Pis
+    </div>
 
+    <div class="scroll-container">
+        <div class="wallet-header">
+            <h1 class="wallet-title">Pi Swap Wallet</h1>
+            <p class="info-text">Your secure Pi Swap wallet</p>
+        </div>
+        
         <div class="wallet-box">
             <i class="fas fa-wallet wallet-icon"></i>
             <p>Your Current Balance:</p>
-            <div class="wallet-balance" id="walletBalance">0 PiSwap</div>
+            <div class="wallet-balance" id="walletBalance">0 Pis</div>
+            <div class="wallet-address" id="walletAddress">Loading wallet address...</div>
             
-            <!-- Wallet buttons (disabled for now) -->
-            <div class="wallet-buttons">
-                <button class="wallet-btn"><i class="fas fa-plus"></i> Deposit</button>
-                <button class="wallet-btn"><i class="fas fa-paper-plane"></i> Send</button>
+            <div class="wallet-actions">
+                <button class="wallet-btn" id="receiveBtn">
+                    <i class="fas fa-arrow-down"></i>
+                    <span>Receive</span>
+                </button>
+                <button class="wallet-btn" disabled>
+                    <i class="fas fa-arrow-up"></i>
+                    <span>Send</span>
+                </button>
+            </div>
+            
+            <div class="wallet-stats">
+                <div class="stat-card">
+                    <div class="stat-label">Daily Earnings</div>
+                    <div class="stat-value">+0.0%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Transactions</div>
+                    <div class="stat-value" id="transactionCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Network</div>
+                    <div class="stat-value">Pi</div>
+                </div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="progress-text">Wallet security level: 30% (complete tasks to improve)</div>
+            
+            <div class="wallet-security">
+                <div class="security-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>2FA Authentication</span>
+                </div>
+                <div class="security-item">
+                    <i class="fas fa-key"></i>
+                    <span>Private Key Encrypted</span>
+                </div>
+                <div class="security-item">
+                    <i class="fas fa-bell"></i>
+                    <span>Activity Alerts</span>
+                </div>
             </div>
 
-            <!-- Roadmap notice -->
             <div class="roadmap-message">
-                These features will be launched once the roadmap conditions are met.
+                <h4><i class="fas fa-rocket"></i> Coming Soon</h4>
+                <p>Full wallet functionality including sending, swapping, and staking will be activated in future updates. Stay tuned for exciting new features!</p>
             </div>
         </div>
     </div>
 
     <div class="bottom-menu">
-        <a href="https://piswap362.github.io/Home/" class="menu-btn"><i class="fas fa-home"></i> Home</a>
-        <a href="https://piswap362.github.io/Tasks/" class="menu-btn"><i class="fas fa-tasks"></i> Tasks</a>
-        <a href="https://piswap362.github.io/Friends/" class="menu-btn"><i class="fas fa-user-friends"></i> Friends</a>
-        <a href="https://piswap362.github.io/Wallet/" class="menu-btn active"><i class="fas fa-wallet"></i> Wallet</a>
+        <a href="https://piswap362.github.io/PiSwap_Home/" class="menu-btn"><i class="fas fa-home"></i> Home</a>
+        <a href="https://piswap362.github.io/PiSwap_tasks/" class="menu-btn"><i class="fas fa-tasks"></i> Tasks</a>
+        <a href="https://piswap362.github.io/PiSwap_Friends/" class="menu-btn"><i class="fas fa-user-friends"></i> Friends</a>
+        <a href="https://piswap362.github.io/PiSwap_Wallet/" class="menu-btn active"><i class="fas fa-wallet"></i> Wallet</a>
+    </div>
+    
+    <div class="qr-modal" id="qrModal">
+        <div class="qr-content">
+            <button class="qr-close" id="qrClose">×</button>
+            <h3>Receive Pis</h3>
+            <p>Scan this QR code to receive Pi tokens</p>
+            <div class="qr-image" id="qrCode">
+                <!-- QR code would be generated here -->
+                <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:black;">
+                    <i class="fas fa-qrcode" style="font-size:50px;"></i>
+                </div>
+            </div>
+            <p>Or share your address:</p>
+            <div class="wallet-address" id="modalAddress">Loading wallet address...</div>
+            <button class="wallet-btn" style="margin-top: 15px;" id="copyAddressBtn">
+                <i class="fas fa-copy"></i>
+                <span>Copy Address</span>
+            </button>
+        </div>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            let points = parseInt(localStorage.getItem("walletPoints")) || 0;
-            document.getElementById("walletBalance").textContent = points + " PiSwap";
+            // Initialize points display
+            updatePointsDisplay();
+            
+            // Generate wallet info
+            const walletAddress = generateWalletAddress();
+            document.getElementById("walletAddress").textContent = walletAddress;
+            document.getElementById("modalAddress").textContent = walletAddress;
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Animate progress bar
+            setTimeout(() => {
+                document.getElementById("progressBar").style.width = "30%";
+            }, 500);
         });
+
+        function updatePointsDisplay() {
+            let points = parseFloat(localStorage.getItem("pisPoints")) || 0;
+            document.getElementById("pointsDisplay").textContent = points;
+            document.getElementById("walletBalance").textContent = points + " Pis";
+        }
+
+        function generateWalletAddress() {
+            let address = localStorage.getItem("walletAddress");
+            if (!address) {
+                address = "PISWAP-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+                localStorage.setItem("walletAddress", address);
+            }
+            return address;
+        }
+
+        function setupEventListeners() {
+            // QR code modal functionality
+            const receiveBtn = document.getElementById("receiveBtn");
+            const qrModal = document.getElementById("qrModal");
+            const qrClose = document.getElementById("qrClose");
+            const copyAddressBtn = document.getElementById("copyAddressBtn");
+            const walletAddress = document.getElementById("walletAddress");
+            
+            receiveBtn.addEventListener("click", function() {
+                qrModal.style.display = "flex";
+            });
+            
+            qrClose.addEventListener("click", function() {
+                qrModal.style.display = "none";
+            });
+            
+            copyAddressBtn.addEventListener("click", function() {
+                const address = document.getElementById("modalAddress").textContent;
+                navigator.clipboard.writeText(address);
+                this.innerHTML = '<i class="fas fa-check"></i><span>Copied!</span>';
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-copy"></i><span>Copy Address</span>';
+                }, 2000);
+            });
+            
+            // Copy address on click
+            walletAddress.addEventListener("click", function() {
+                const address = this.textContent;
+                navigator.clipboard.writeText(address);
+                const originalText = this.textContent;
+                this.textContent = "Copied to clipboard!";
+                setTimeout(() => {
+                    this.textContent = originalText;
+                }, 2000);
+            });
+            
+            // Generate random transaction count
+            const transactionCount = Math.floor(Math.random() * 15) + 3;
+            document.getElementById("transactionCount").textContent = transactionCount;
+        }
     </script>
 </body>
 </html>
