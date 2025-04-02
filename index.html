@@ -7,13 +7,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         :root {
-            --pi-primary: #1EC0C0;
-            --pi-secondary: #2ECC71;
-            --pi-accent: #F39C12;
-            --pi-dark: #1A3A4F;
-            --pi-light: #E8F4F8;
+            --pi-primary: #1EC0C0;  /* Pi Network teal */
+            --pi-secondary: #2ECC71; /* Pi Network green */
+            --pi-accent: #F39C12;   /* Pi Network orange */
+            --pi-dark: #1A3A4F;     /* Dark blue from Pi Network */
+            --pi-light: #E8F4F8;    /* Light background from Pi Network */
             --text-light: #FFFFFF;
-            --text-dark: #2C3E50;
+            --text-dark: #2C3E50;   /* Dark text from Pi Network */
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
         }
@@ -26,7 +26,6 @@
             color: var(--text-light);
             text-align: center;
             overflow-x: hidden;
-            background: linear-gradient(135deg, var(--pi-dark) 0%, var(--pi-primary) 100%);
         }
         
         .scroll-container {
@@ -57,8 +56,6 @@
             margin-bottom: 20px;
             border: 1px solid rgba(30, 192, 192, 0.2);
             backdrop-filter: blur(5px);
-            position: relative;
-            overflow: hidden;
         }
         
         .wallet-icon {
@@ -72,18 +69,6 @@
             font-weight: 700;
             margin: 10px 0;
             color: var(--pi-accent);
-            position: relative;
-            display: inline-block;
-        }
-        
-        .wallet-balance::after {
-            content: "";
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--pi-accent), transparent);
         }
         
         .wallet-address {
@@ -95,13 +80,6 @@
             display: inline-block;
             word-break: break-all;
             max-width: 90%;
-            position: relative;
-            transition: var(--transition);
-            cursor: pointer;
-        }
-        
-        .wallet-address:hover {
-            background: rgba(255, 255, 255, 0.2);
         }
         
         .wallet-actions {
@@ -144,80 +122,37 @@
             transform: none !important;
         }
         
-        .wallet-stats {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            gap: 15px;
-        }
-        
-        .stat-card {
-            background: rgba(30, 192, 192, 0.1);
-            border-radius: 10px;
+        .earnings-section {
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.05);
             padding: 15px;
-            flex: 1;
-            text-align: center;
-            transition: var(--transition);
+            border-radius: 12px;
+            border: 1px solid rgba(30, 192, 192, 0.2);
         }
         
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow);
+        .earnings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
         }
         
-        .stat-value {
+        .earning-item {
+            background: rgba(30, 192, 192, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .earning-value {
             font-size: 18px;
             font-weight: 700;
-            margin: 5px 0;
             color: var(--pi-accent);
+            margin: 5px 0;
         }
         
-        .stat-label {
+        .earning-label {
             font-size: 12px;
             opacity: 0.8;
-        }
-        
-        .progress-container {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            margin: 20px 0;
-            height: 10px;
-            overflow: hidden;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--pi-primary), var(--pi-accent));
-            border-radius: 10px;
-            width: 30%;
-            transition: width 1s ease;
-        }
-        
-        .progress-text {
-            font-size: 12px;
-            margin-top: 5px;
-            color: var(--pi-accent);
-        }
-        
-        .wallet-security {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(243, 156, 18, 0.1);
-            border-radius: 10px;
-            text-align: left;
-            font-size: 13px;
-        }
-        
-        .security-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .security-item i {
-            margin-right: 10px;
-            color: var(--pi-accent);
         }
         
         .roadmap-message {
@@ -228,7 +163,6 @@
             margin-top: 25px;
             text-align: left;
             font-size: 14px;
-            position: relative;
         }
         
         .roadmap-message h4 {
@@ -237,10 +171,6 @@
             display: flex;
             align-items: center;
             gap: 8px;
-        }
-        
-        .roadmap-message p {
-            margin-bottom: 0;
         }
         
         .bottom-menu {
@@ -346,32 +276,9 @@
             margin: 20px auto;
             padding: 10px;
         }
-        
-        .points-counter {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.3);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            z-index: 100;
-        }
-        
-        .points-counter i {
-            color: var(--pi-accent);
-            margin-right: 5px;
-        }
     </style>
 </head>
 <body>
-    <div class="points-counter">
-        <i class="fas fa-coins"></i>
-        <span id="pointsDisplay">0</span> Pis
-    </div>
-
     <div class="scroll-container">
         <div class="wallet-header">
             <h1 class="wallet-title">Pi Swap Wallet</h1>
@@ -380,7 +287,7 @@
         
         <div class="wallet-box">
             <i class="fas fa-wallet wallet-icon"></i>
-            <p>Your Current Balance:</p>
+            <p>Your Total Balance:</p>
             <div class="wallet-balance" id="walletBalance">0 Pis</div>
             <div class="wallet-address" id="walletAddress">Loading wallet address...</div>
             
@@ -395,44 +302,31 @@
                 </button>
             </div>
             
-            <div class="wallet-stats">
-                <div class="stat-card">
-                    <div class="stat-label">Daily Earnings</div>
-                    <div class="stat-value">+0.0%</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Transactions</div>
-                    <div class="stat-value" id="transactionCount">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Network</div>
-                    <div class="stat-value">Pi</div>
-                </div>
-            </div>
-            
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-            <div class="progress-text">Wallet security level: 30% (complete tasks to improve)</div>
-            
-            <div class="wallet-security">
-                <div class="security-item">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>2FA Authentication</span>
-                </div>
-                <div class="security-item">
-                    <i class="fas fa-key"></i>
-                    <span>Private Key Encrypted</span>
-                </div>
-                <div class="security-item">
-                    <i class="fas fa-bell"></i>
-                    <span>Activity Alerts</span>
+            <div class="earnings-section">
+                <h3>Your Earnings</h3>
+                <div class="earnings-grid">
+                    <div class="earning-item">
+                        <div class="earning-label">From Home</div>
+                        <div class="earning-value" id="homeEarnings">0 Pis</div>
+                    </div>
+                    <div class="earning-item">
+                        <div class="earning-label">From Tasks</div>
+                        <div class="earning-value" id="tasksEarnings">0 Pis</div>
+                    </div>
+                    <div class="earning-item">
+                        <div class="earning-label">From Friends</div>
+                        <div class="earning-value" id="friendsEarnings">0 Pis</div>
+                    </div>
+                    <div class="earning-item">
+                        <div class="earning-label">Total</div>
+                        <div class="earning-value" id="totalEarnings">0 Pis</div>
+                    </div>
                 </div>
             </div>
 
             <div class="roadmap-message">
                 <h4><i class="fas fa-rocket"></i> Coming Soon</h4>
-                <p>Full wallet functionality including sending, swapping, and staking will be activated in future updates. Stay tuned for exciting new features!</p>
+                <p>Full wallet functionality including sending, swapping, and staking will be activated in future updates.</p>
             </div>
         </div>
     </div>
@@ -466,28 +360,17 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Initialize points display
-            updatePointsDisplay();
-            
-            // Generate wallet info
+            // Initialize wallet
             const walletAddress = generateWalletAddress();
             document.getElementById("walletAddress").textContent = walletAddress;
             document.getElementById("modalAddress").textContent = walletAddress;
             
+            // Calculate and display earnings
+            updateEarnings();
+            
             // Set up event listeners
             setupEventListeners();
-            
-            // Animate progress bar
-            setTimeout(() => {
-                document.getElementById("progressBar").style.width = "30%";
-            }, 500);
         });
-
-        function updatePointsDisplay() {
-            let points = parseFloat(localStorage.getItem("pisPoints")) || 0;
-            document.getElementById("pointsDisplay").textContent = points;
-            document.getElementById("walletBalance").textContent = points + " Pis";
-        }
 
         function generateWalletAddress() {
             let address = localStorage.getItem("walletAddress");
@@ -498,13 +381,30 @@
             return address;
         }
 
+        function updateEarnings() {
+            // Get points from all sections
+            const homePoints = parseFloat(localStorage.getItem("points")) || 0;
+            const tasksPoints = parseFloat(localStorage.getItem("pisPoints")) || 0;
+            const friendsPoints = parseFloat(localStorage.getItem("friendsPoints")) || 0;
+            const totalPoints = homePoints + tasksPoints + friendsPoints;
+            
+            // Update display
+            document.getElementById("homeEarnings").textContent = homePoints + " Pis";
+            document.getElementById("tasksEarnings").textContent = tasksPoints + " Pis";
+            document.getElementById("friendsEarnings").textContent = friendsPoints + " Pis";
+            document.getElementById("totalEarnings").textContent = totalPoints + " Pis";
+            document.getElementById("walletBalance").textContent = totalPoints + " Pis";
+            
+            // Save total points
+            localStorage.setItem("totalPoints", totalPoints);
+        }
+
         function setupEventListeners() {
             // QR code modal functionality
             const receiveBtn = document.getElementById("receiveBtn");
             const qrModal = document.getElementById("qrModal");
             const qrClose = document.getElementById("qrClose");
             const copyAddressBtn = document.getElementById("copyAddressBtn");
-            const walletAddress = document.getElementById("walletAddress");
             
             receiveBtn.addEventListener("click", function() {
                 qrModal.style.display = "flex";
@@ -522,21 +422,6 @@
                     this.innerHTML = '<i class="fas fa-copy"></i><span>Copy Address</span>';
                 }, 2000);
             });
-            
-            // Copy address on click
-            walletAddress.addEventListener("click", function() {
-                const address = this.textContent;
-                navigator.clipboard.writeText(address);
-                const originalText = this.textContent;
-                this.textContent = "Copied to clipboard!";
-                setTimeout(() => {
-                    this.textContent = originalText;
-                }, 2000);
-            });
-            
-            // Generate random transaction count
-            const transactionCount = Math.floor(Math.random() * 15) + 3;
-            document.getElementById("transactionCount").textContent = transactionCount;
         }
     </script>
 </body>
